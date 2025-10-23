@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:windowBackground"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:id="@+id/formContainer"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        android:padding="20dp"
+        android:elevation="2dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp">
+
+        <!-- Tytuł zadania -->
+        <EditText
+            android:id="@+id/taskTitleInput"
+            android:hint="@string/task_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:textColor="?android:textColorPrimary"
+            android:backgroundTint="?attr/colorPrimary"
+            android:padding="12dp" />
+
+        <!-- Opis zadania -->
+        <EditText
+            android:id="@+id/taskDescriptionInput"
+            android:hint="@string/task_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:layout_marginTop="12dp"
+            android:textColor="?android:textColorPrimary"
+            android:backgroundTint="?attr/colorPrimary"
+            android:padding="12dp" />
+
+        <!-- Wybór deadline -->
+        <TextView
+            android:id="@+id/deadlineTextView"
+            android:text="@string/select_deadline"
+            android:layout_marginTop="16dp"
+            android:padding="12dp"
+            android:background="@drawable/deadline_background"
+            android:textSize="16sp"
+            android:textColor="?android:textColorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Sugeruj kroki -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/suggestStepsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/suggest_steps"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:paddingVertical="12dp" />
+
+        <!-- Spinner ładowania AI -->
+        <ProgressBar
+            android:id="@+id/aiLoadingSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large" />
+
+        <!-- Dodaj krok -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addStepButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_step"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:paddingVertical="12dp" />
+
+        <!-- Lista kroków -->
+        <LinearLayout
+            android:id="@+id/stepsContainer"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+
+        <!-- Zapisz zadanie -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveTaskButton"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save_task"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:paddingVertical="14dp" />
+    </LinearLayout>
+</ScrollView>

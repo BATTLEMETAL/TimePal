@@ -1,0 +1,19 @@
+<resources>
+    <color name="colorPrimary">#81C784</color>
+    <color name="colorOnPrimary">#000000</color>
+    <color name="colorPrimaryContainer">#388E3C</color>
+
+    <color name="colorSecondary">#FFD54F</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="colorSecondaryContainer">#FFA000</color>
+
+    <color name="colorSurface">#121212</color>
+    <color name="colorOnSurface">#FFFFFF</color>
+    <color name="appBackground">#121212</color>
+    <color name="colorOnBackground">#FFFFFF</color>
+
+    <color name="colorOutline">#444444</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="blue_500">#90CAF9</color>
+</resources>

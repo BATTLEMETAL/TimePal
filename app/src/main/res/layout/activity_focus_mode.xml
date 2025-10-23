@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:windowBackground">
+
+    <!-- Tytuł zadania -->
+    <TextView
+        android:id="@+id/taskTitleFocus"
+        android:text="Zadanie"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="?android:textColorPrimary"
+        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- Licznik czasu -->
+    <TextView
+        android:id="@+id/countdownTimer"
+        android:text="00:00:00"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimary"
+        android:layout_marginBottom="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- Tekst postępu -->
+    <TextView
+        android:id="@+id/progressTextView"
+        android:text="Postęp: 0%"
+        android:textSize="16sp"
+        android:textColor="?android:textColorSecondary"
+        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- Pasek postępu -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:progress="0"
+        android:max="100"
+        android:progressTint="?attr/colorPrimary"
+        android:backgroundTint="@android:color/darker_gray"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Tytuł listy kroków -->
+    <TextView
+        android:text="Kroki do wykonania:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="?android:textColorPrimary"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Lista kroków -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/stepsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="?attr/colorSurface"
+        android:padding="12dp"
+        android:elevation="2dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+</LinearLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:gravity="center"
+    android:background="?android:windowBackground">
+
+    <!-- Tytuł powitalny -->
+    <TextView
+        android:id="@+id/welcomeTitle"
+        android:text="👋 Witaj w TimePal!"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnBackground"
+        android:layout_marginBottom="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- Opis onboardingowy -->
+    <TextView
+        android:id="@+id/welcomeDescription"
+        android:text="Zarządzaj zadaniami, pokonuj presję czasu i analizuj swoją produktywność!"
+        android:textSize="16sp"
+        android:textColor="?attr/colorOnBackground"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Przycisk startowy -->
+    <Button
+        android:id="@+id/startButton"
+        android:text="ZACZYNAMY!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="?attr/colorOnPrimary"
+        android:textStyle="bold"
+        android:padding="12dp" />
+</LinearLayout>
