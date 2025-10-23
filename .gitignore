@@ -1,0 +1,39 @@
+# =======================================================
+# Pliki z wrażliwymi danymi - NIGDY NIE WYSYŁAĆ
+# =======================================================
+# Plik z kluczami API i hasłami do keystore
+local.properties
+
+# Pliki kluczy do podpisywania aplikacji (keystore)
+*.jks
+*.keystore
+
+
+# =======================================================
+# Pliki i katalogi generowane przez Android Studio / Gradle
+# =======================================================
+# Katalogi build
+/build
+/app/build
+
+# Pliki generowane przez IDE
+.idea/
+*.iml
+.gradle/
+
+
+# =======================================================
+# Inne pliki lokalne i tymczasowe
+# =======================================================
+# Pliki systemowe (macOS)
+.DS_Store
+
+# Zrzuty ekranu z Android Studio
+/captures
+
+# Logi błędów
+*.log
+
+# Pliki związane z budowaniem kodu natywnego (C++)
+.cxx/
+.externalNativeBuild/
