@@ -27,6 +27,7 @@ public class StatsActivity extends AppCompatActivity {
     private TextView tasksThisWeekText, avgDeadlineText, avgStepsText;
     private BarChart barChart, stepsPerTaskChart;
     private TaskDatabase db;
+    private final java.util.concurrent.Executor executor = java.util.concurrent.Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +54,16 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     private void loadStatistics() {
-        List<Task> tasks = db.taskDao().getAllTasks();
-        if (tasks == null || tasks.isEmpty()) {
-            tasksCompletedText.setText("Brak zadań.");
-            avgProgressText.setText("Średni postęp: 0%");
-            return;
-        }
+        executor.execute(() -> {
+            List<Task> tasks = db.taskDao().getAllTasks();
+            runOnUiThread(() -> {
+                if (tasks == null || tasks.isEmpty()) {
+                    tasksCompletedText.setText("Brak zadań.");
+                    avgProgressText.setText("Średni postęp: 0%");
+                    return;
+                }
+            });
+            if (tasks == null || tasks.isEmpty()) return;
 
         int totalProgress = 0;
         int fullyCompleted = 0;
@@ -117,14 +122,23 @@ public class StatsActivity extends AppCompatActivity {
         long avgDeadlineHours = futureTasks > 0 ? TimeUnit.MILLISECONDS.toHours(sumTimeToDeadline / futureTasks) : 0;
         double avgSteps = tasks.isEmpty() ? 0 : (double) totalSteps / tasks.size();
 
-        tasksCompletedText.setText("Ukończone zadania: " + fullyCompleted + " / " + tasks.size());
-        avgProgressText.setText("Średni postęp: " + avgProgress + "%");
-        tasksThisWeekText.setText("Zadania w tym tygodniu: " + tasksThisWeek);
-        avgDeadlineText.setText("Średni czas do deadline: " + avgDeadlineHours + " h");
-        avgStepsText.setText("Śr. liczba kroków: " + String.format(Locale.getDefault(), "%.1f", avgSteps));
+        int finalAvgProgress = avgProgress;
+        long finalAvgDeadlineHours = avgDeadlineHours;
+        double finalAvgSteps = avgSteps;
+        int finalFullyCompleted = fullyCompleted;
+        int finalTasksThisWeek = tasksThisWeek;
 
-        setupDayProgressChart(dayProgress);
-        setupStepsPerTaskChart(stepEntries, taskLabels);
+        runOnUiThread(() -> {
+            tasksCompletedText.setText("Ukończone zadania: " + finalFullyCompleted + " / " + tasks.size());
+            avgProgressText.setText("Średni postęp: " + finalAvgProgress + "%");
+            tasksThisWeekText.setText("Zadania w tym tygodniu: " + finalTasksThisWeek);
+            avgDeadlineText.setText("Średni czas do deadline: " + finalAvgDeadlineHours + " h");
+            avgStepsText.setText("Śr. liczba kroków: " + String.format(Locale.getDefault(), "%.1f", finalAvgSteps));
+
+            setupDayProgressChart(dayProgress);
+            setupStepsPerTaskChart(stepEntries, taskLabels);
+        });
+        });
     }
 
     private void setupDayProgressChart(Map<Integer, Integer> dayProgress) {

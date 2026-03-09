@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private TaskAdapter taskAdapter;
     private RecyclerView recyclerView;
     private Button addTaskButton, viewStatsButton, openSettingsButton;
+    private final java.util.concurrent.Executor executor = java.util.concurrent.Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +67,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadTasks() {
-        List<Task> taskList = db.taskDao().getAllTasks();
-        taskAdapter = new TaskAdapter(taskList, this, db);
-        recyclerView.setAdapter(taskAdapter);
+        executor.execute(() -> {
+            List<Task> taskList = db.taskDao().getAllTasks();
+            runOnUiThread(() -> {
+                taskAdapter = new TaskAdapter(taskList, MainActivity.this, db);
+                recyclerView.setAdapter(taskAdapter);
+            });
+        });
     }
 }

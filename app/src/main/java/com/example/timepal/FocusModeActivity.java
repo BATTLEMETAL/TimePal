@@ -33,6 +33,7 @@ public class FocusModeActivity extends AppCompatActivity {
     private MediaPlayer beepSound;
     private int intensityLevel = 0;
     private int tickCounter = 0;
+    private CountDownTimer countDownTimer; // added reference to avoid memory leaks
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +98,7 @@ public class FocusModeActivity extends AppCompatActivity {
         long tickInterval = "hardcore".equals(mode) ? 500 : 1000;
         boolean showPressure = "pressure".equals(mode) || "hardcore".equals(mode);
 
-        new CountDownTimer(millisUntilFinished, tickInterval) {
+        countDownTimer = new CountDownTimer(millisUntilFinished, tickInterval) {
             @Override
             public void onTick(long millisLeft) {
                 long h = TimeUnit.MILLISECONDS.toHours(millisLeft);
@@ -165,6 +166,9 @@ public class FocusModeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel(); // cancel to avoid leaks
+        }
         if ("hardcore".equals(mode) && steps != null) {
             for (TaskStep step : steps) {
                 step.completed = false;
