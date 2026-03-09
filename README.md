@@ -55,15 +55,17 @@
 
 4. **Build and Run the project** on your emulator or physical Android device.
 
-## 📸 Screenshots
+## 📸 Application Demo
 
-*(Add screenshots here)*
-
-| Home Screen | AI Task Breakdown | Focus Mode | Statistics |
+| Tasks Overlook | AI Breakdown | Focus Timer | Productivity Stats |
 | :---: | :---: | :---: | :---: |
-| <img src="assets/home_placeholder.png" width="200" alt="Home Screen"/> | <img src="assets/ai_placeholder.png" width="200" alt="AI Breakdown"/> | <img src="assets/focus_placeholder.png" width="200" alt="Focus Mode"/> | <img src="assets/stats_placeholder.png" width="200" alt="Stats"/> |
+| <img src="assets/home.png" width="200" alt="Home Screen"/> | <img src="assets/ai.png" width="200" alt="AI Breakdown"/> | <img src="assets/focus.png" width="200" alt="Focus Mode"/> | <img src="assets/stats.png" width="200" alt="Stats"/> |
 
-*(Create an `assets` folder in the root directory and place your `.png` screenshots there to replace these placeholders).*
+## 📖 Engineering Case Study
+
+Curious about how **TimePal** was engineered to be highly stable, asynchronously performant, and memory-safe while integrating the OpenAI platform?
+
+👉 **[Read the Full Engineering Case Study here](CASE_STUDY.md)**
 
 ## 📜 License
 
