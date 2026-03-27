@@ -1,36 +1,75 @@
-# TimePal: AI-Driven Productivity Ecosystem ⏳
+# TimePal: AI-Powered Task Manager
 
-**TimePal** is a research and development initiative focused on engineering a highly stable, AI-augmented task execution manager for Android. Unlike standard to-do lists, TimePal leverages Large Language Models to autonomously break down complex goals into actionable micro-steps, while enforcing strict execution through a lifecycle-aware Focus Engine.
+[![Android](https://img.shields.io/badge/Android-SDK%2034-3DDC84?logo=android)](.)
+[![Java](https://img.shields.io/badge/Java-17+-ED8B00?logo=openjdk)](.)
+[![Status](https://img.shields.io/badge/Status-Active%20R%26D-blue)](.)
 
-## 🚀 Key Innovations
-
-### 1. Asynchronous Concurrency Model
-Running local SQLite databases (`Room`) on mobile hardware often results in Application Not Responding (ANR) lockups. TimePal utilizes an advanced concurrency model:
-*   **Executor Service Routing:** Offloads heavy data transactions to a background thread pool natively, guaranteeing a flawless 60 FPS UI experience.
-*   **Event-Driven Real-time Hydration:** Dynamic UI updates populated directly from the local cache without freezing the main thread.
-
-### 2. Autonomous Task Decomposition Pipeline
-To eliminate user "paralysis by analysis," the ecosystem integrates a secondary reasoning engine:
-*   **The Orchestrator:** The local application requests OpenAI completion dynamically to break down complex goals.
-*   **The Fallback Mechanism:** Robust error-handling intercepts API throttling or network failures, gracefully serving local heuristic-based task steps instantly to prevent blocking the user flow.
-
-### 3. Lifecycle-Aware Focus Engine
-The core countdown module was engineered to prevent memory leaks—a critical issue in Android development:
-*   **Deterministic Resource Teardown:** The timer maintains a strict bond with the Activity lifecycle (`onDestroy`), explicitly canceling threads to prevent ghost processes and memory leaks from crashing the device heap.
-
-## 🛠️ Tech Stack & Architecture
-
-*   **Core Target:** Android SDK 34
-*   **Language:** Java 17+
-*   **Persistence:** Room Database (Offline-First Architecture)
-*   **Networking:** Retrofit + OkHttp
-*   **Intelligence:** OpenAI API
-*   **Analytics Visualization:** MPAndroidChart 
-
-## 🚧 Project Status
-
-*   **Phase:** Active R&D / Refinement.
-*   **Current Focus:** Migrating legacy XML views to Jetpack Compose and implementing real-time cloud synchronization via Firebase.
+**TimePal** to Android task manager ktory uzywa GPT do automatycznego rozbijania celow na mikro-kroki
+i lifecycle-aware Focus Engine do wymuszania skupienia.
 
 ---
-*Note: Due to the integration of proprietary AI pipelines and advanced optimization patches, the full source code is available upon request for technical interviews.*
+
+## Funkcje
+
+| Funkcja | Opis |
+|---|---|
+| AI Task Decomposition | GPT rozbija zlozone cele na actionable micro-steps |
+| Focus Engine | Licznik czasu z lifecycle-aware zarzadzaniem watkami (brak memory leaks) |
+| Analytics | Wizualizacja postepow z MPAndroidChart |
+| Offline Fallback | Lokalna heurystyka gdy API niedostepne |
+
+---
+
+## Architektura
+
+```
+UI Layer (XML -> Jetpack Compose migration)
+        |
+ViewModel + LiveData
+        |
+Repository Pattern
+    /       \
+Room DB    Retrofit + OkHttp
+(offline)   (OpenAI API)
+        |
+MPAndroidChart (analytics)
+```
+
+## Tech Stack
+
+- **Platform:** Android SDK 34, Java 17+
+- - **Persistence:** Room Database (Offline-First)
+  - - **Networking:** Retrofit 2 + OkHttp
+    - - **AI:** OpenAI API (GPT-4)
+      - - **Visualization:** MPAndroidChart
+        - - **Architecture:** MVVM + Repository Pattern
+         
+          - ## Kluczowe rozwiazania techniczne
+         
+          - **Problem ANR (Application Not Responding):**
+          - Room operations sa offloadowane na background thread pool przez Executor Service,
+          - gwarantujac 60 FPS UI bez blokowania main thread.
+         
+          - **Memory Leak Prevention:**
+          - Timer jest scisle powiazany z cyklem zycia Activity (onDestroy),
+          - cancellujac wszystkie watki i zapobiegajac ghost processes.
+         
+          - ## Quick Start
+         
+          - ```bash
+            git clone https://github.com/BATTLEMETAL/TimePal.git
+            # Otworz w Android Studio
+            # Dodaj swoj klucz OpenAI API w local.properties:
+            # OPENAI_API_KEY=sk-...
+            # Build -> Run na emulatorze lub urzadzeniu (API 26+)
+            ```
+
+            ## Roadmap
+
+            - [x] Room DB + async concurrency
+            - [ ] - [x] OpenAI task decomposition + fallback
+            - [ ] - [x] Lifecycle-aware Focus Engine
+            - [ ] - [ ] Migration to Jetpack Compose
+            - [ ] - [ ] Firebase real-time sync
+            - [ ] - [ ] Firebase Analytics dashboard
+            - [ ] 
