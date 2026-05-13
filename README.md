@@ -1,75 +1,83 @@
-# TimePal: AI-Powered Task Manager
+# TimePal — AI-Powered Android Task Manager
 
 [![Android](https://img.shields.io/badge/Android-SDK%2034-3DDC84?logo=android)](.)
 [![Java](https://img.shields.io/badge/Java-17+-ED8B00?logo=openjdk)](.)
-[![Status](https://img.shields.io/badge/Status-Active%20R%26D-blue)](.)
+[![Status](https://img.shields.io/badge/Status-Active%20Development-blue)](.)
 
-**TimePal** to Android task manager ktory uzywa GPT do automatycznego rozbijania celow na mikro-kroki
-i lifecycle-aware Focus Engine do wymuszania skupienia.
+Android task manager that uses GPT-4 to automatically decompose goals into actionable micro-steps,
+with a lifecycle-aware Focus Engine for enforcing deep work sessions.
 
 ---
 
-## Funkcje
+## Features
 
-| Funkcja | Opis |
+| Feature | Description |
 |---|---|
-| AI Task Decomposition | GPT rozbija zlozone cele na actionable micro-steps |
-| Focus Engine | Licznik czasu z lifecycle-aware zarzadzaniem watkami (brak memory leaks) |
-| Analytics | Wizualizacja postepow z MPAndroidChart |
-| Offline Fallback | Lokalna heurystyka gdy API niedostepne |
+| AI Task Decomposition | GPT-4 breaks complex goals into prioritized micro-steps |
+| Focus Engine | Lifecycle-aware timer — no memory leaks, no ANR, 60 FPS UI |
+| Analytics | Progress visualization with MPAndroidChart |
+| Offline Fallback | Local heuristics when OpenAI API is unavailable |
 
 ---
 
-## Architektura
+## Architecture
 
 ```
-UI Layer (XML -> Jetpack Compose migration)
-        |
+UI Layer (XML)
+      |
 ViewModel + LiveData
-        |
+      |
 Repository Pattern
-    /       \
+   /       \
 Room DB    Retrofit + OkHttp
 (offline)   (OpenAI API)
-        |
+      |
 MPAndroidChart (analytics)
 ```
 
+**Pattern:** MVVM + Repository | **Storage:** Room (offline-first) | **Networking:** Retrofit 2 + OkHttp
+
+---
+
+## Key Engineering Decisions
+
+**ANR Prevention:**
+Room database operations are offloaded to a background `ExecutorService`, ensuring the main thread never blocks — guaranteed 60 FPS UI.
+
+**Memory Leak Prevention:**
+The Focus Engine timer is strictly bound to the Activity lifecycle (`onDestroy`), cancelling all threads and preventing ghost processes.
+
+---
+
 ## Tech Stack
 
-- **Platform:** Android SDK 34, Java 17+
-- - **Persistence:** Room Database (Offline-First)
-  - - **Networking:** Retrofit 2 + OkHttp
-    - - **AI:** OpenAI API (GPT-4)
-      - - **Visualization:** MPAndroidChart
-        - - **Architecture:** MVVM + Repository Pattern
-         
-          - ## Kluczowe rozwiazania techniczne
-         
-          - **Problem ANR (Application Not Responding):**
-          - Room operations sa offloadowane na background thread pool przez Executor Service,
-          - gwarantujac 60 FPS UI bez blokowania main thread.
-         
-          - **Memory Leak Prevention:**
-          - Timer jest scisle powiazany z cyklem zycia Activity (onDestroy),
-          - cancellujac wszystkie watki i zapobiegajac ghost processes.
-         
-          - ## Quick Start
-         
-          - ```bash
-            git clone https://github.com/BATTLEMETAL/TimePal.git
-            # Otworz w Android Studio
-            # Dodaj swoj klucz OpenAI API w local.properties:
-            # OPENAI_API_KEY=sk-...
-            # Build -> Run na emulatorze lub urzadzeniu (API 26+)
-            ```
+| Component | Technology |
+|---|---|
+| Platform | Android SDK 34, Java 17+ |
+| Persistence | Room Database (offline-first) |
+| Networking | Retrofit 2 + OkHttp |
+| AI | OpenAI API (GPT-4) with local fallback |
+| Visualization | MPAndroidChart |
+| Architecture | MVVM + Repository Pattern |
 
-            ## Roadmap
+---
 
-            - [x] Room DB + async concurrency
-            - [ ] - [x] OpenAI task decomposition + fallback
-            - [ ] - [x] Lifecycle-aware Focus Engine
-            - [ ] - [ ] Migration to Jetpack Compose
-            - [ ] - [ ] Firebase real-time sync
-            - [ ] - [ ] Firebase Analytics dashboard
-            - [ ] 
+## Quick Start
+
+```bash
+git clone https://github.com/BATTLEMETAL/TimePal.git
+# Open in Android Studio
+# Add your OpenAI API key to local.properties:
+# OPENAI_API_KEY=sk-...
+# Build → Run on emulator or device (API 26+)
+```
+
+---
+
+## Implemented
+
+- ✅ Room DB with async concurrency (ExecutorService)
+- ✅ OpenAI GPT-4 task decomposition with offline fallback
+- ✅ Lifecycle-aware Focus Engine (Normal / Pressure / Hardcore modes)
+- ✅ MVVM + Repository architecture
+- ✅ MPAndroidChart analytics dashboard
