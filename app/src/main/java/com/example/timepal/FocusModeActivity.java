@@ -16,7 +16,10 @@ import androidx.room.Room;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 
 public class FocusModeActivity extends AppCompatActivity {
 
@@ -28,6 +31,7 @@ public class FocusModeActivity extends AppCompatActivity {
     private Task currentTask;
     private List<TaskStep> steps;
     private TaskStepAdapter stepAdapter;
+    private final Executor executor = Executors.newSingleThreadExecutor();
 
     private String mode;
     private MediaPlayer beepSound;
@@ -61,31 +65,34 @@ public class FocusModeActivity extends AppCompatActivity {
     }
 
     private void initDatabase() {
+        // No allowMainThreadQueries() — all DB ops run on background thread via executor
         db = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "task-db")
                 .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
                 .build();
     }
 
     private void loadTaskAndSteps() {
         int taskId = getIntent().getIntExtra("taskId", -1);
-        currentTask = db.taskDao().getTaskById(taskId);
+        executor.execute(() -> {
+            currentTask = db.taskDao().getTaskById(taskId);
+            steps = (currentTask != null) ? db.taskStepDao().getStepsForTask(taskId) : null;
 
-        if (currentTask != null) {
-            titleTextView.setText(currentTask.title);
-            startCountdown(currentTask.deadlineTimestamp);
-
-            steps = db.taskStepDao().getStepsForTask(taskId);
-            stepsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            stepAdapter = new TaskStepAdapter(steps, this, db, this::updateProgress);
-            stepsRecyclerView.setAdapter(stepAdapter);
-
-            updateProgress();
-        } else {
-            titleTextView.setText("Nie znaleziono zadania");
-            countdownTextView.setText("--:--:--");
-        }
+            runOnUiThread(() -> {
+                if (currentTask != null) {
+                    titleTextView.setText(currentTask.title);
+                    startCountdown(currentTask.deadlineTimestamp);
+                    stepsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                    stepAdapter = new TaskStepAdapter(steps, this, db, this::updateProgress);
+                    stepsRecyclerView.setAdapter(stepAdapter);
+                    updateProgress();
+                } else {
+                    titleTextView.setText("Nie znaleziono zadania");
+                    countdownTextView.setText("--:--:--");
+                }
+            });
+        });
     }
+
 
     private void startCountdown(long deadlineTimestamp) {
         long millisUntilFinished = deadlineTimestamp - System.currentTimeMillis();

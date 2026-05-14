@@ -23,19 +23,19 @@ with a lifecycle-aware Focus Engine for enforcing deep work sessions.
 ## Architecture
 
 ```
-UI Layer (XML)
-      |
-ViewModel + LiveData
-      |
-Repository Pattern
-   /       \
-Room DB    Retrofit + OkHttp
-(offline)   (OpenAI API)
-      |
+UI Layer (XML Activities)
+        |
+  Direct Room DB access
+  via Executor (async)
+     /         \
+Room DB      Retrofit + OkHttp
+(offline)    (OpenAI API)
+        |
 MPAndroidChart (analytics)
 ```
 
-**Pattern:** MVVM + Repository | **Storage:** Room (offline-first) | **Networking:** Retrofit 2 + OkHttp
+**Pattern:** MVC (Activity-based) + Executor async | **Storage:** Room DB (offline-first) | **Networking:** Retrofit 2 + OkHttp
+
 
 ---
 
@@ -55,10 +55,12 @@ The Focus Engine timer is strictly bound to the Activity lifecycle (`onDestroy`)
 |---|---|
 | Platform | Android SDK 34, Java 17+ |
 | Persistence | Room Database (offline-first) |
+| Async | Executor (newSingleThreadExecutor) |
 | Networking | Retrofit 2 + OkHttp |
 | AI | OpenAI API (GPT-4) with local fallback |
 | Visualization | MPAndroidChart |
-| Architecture | MVVM + Repository Pattern |
+| Architecture | MVC + Executor async pattern |
+
 
 ---
 
@@ -76,8 +78,10 @@ git clone https://github.com/BATTLEMETAL/TimePal.git
 
 ## Implemented
 
-- ✅ Room DB with async concurrency (ExecutorService)
+- ✅ Room DB with async concurrency (ExecutorService — no ANR)
 - ✅ OpenAI GPT-4 task decomposition with offline fallback
 - ✅ Lifecycle-aware Focus Engine (Normal / Pressure / Hardcore modes)
-- ✅ MVVM + Repository architecture
+- ✅ MVC + Executor async pattern (all DB ops off main thread)
 - ✅ MPAndroidChart analytics dashboard
+- ✅ BuildConfig secret management (API key never hardcoded)
+
